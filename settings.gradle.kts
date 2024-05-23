@@ -5,6 +5,7 @@ include(":launchers:registrationservice")
 include(":system-tests")
 include(":extensions:refresh-catalog")
 include(":extensions:policies")
+include(":launchers:connector-mvd-sql")
 
 pluginManagement {
     repositories {

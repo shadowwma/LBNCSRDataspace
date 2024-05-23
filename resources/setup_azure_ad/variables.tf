@@ -20,7 +20,7 @@ variable "application_fc_pr_name" {
 }
 # name of your fork of MVD
 variable "github_repo" {
-  default = "<YOUR_FORK>/MinimumViableDataspace"
+  default = "https://github.com/shadowwma/LBNCSRDataspace"
 }
 # name of the storage account that'll hold the Terraform State for MVD deployments
 variable "tf_state_storageaccount" {

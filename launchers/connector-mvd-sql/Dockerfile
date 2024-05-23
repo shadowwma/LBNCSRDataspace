@@ -11,15 +11,13 @@ RUN apt update \
 
 WORKDIR /app
 
-COPY ./build/libs/registrationservice-sql.jar /app
-
-EXPOSE 8182
+COPY ./build/libs/connector-sql.jar /app
 
 # health status is determined by the availability of the /health endpoint
-HEALTHCHECK --interval=5s --timeout=5s --retries=10 CMD curl --fail http://localhost:8181/api/check/health
+HEALTHCHECK --interval=5s --timeout=5s --retries=10 CMD curl -H "X-Api-Key: $EDC_API_AUTH_KEY" --fail http://localhost:8181/api/check/health
 
 # Use "exec" for graceful termination (SIGINT) to reach JVM.
-# ARG can not be used in ENTRYPOINT so storing value in an ENV variable
-ENV ENV_JVM_ARGS=$JVM_ARGS
+# ARG can not be used in ENTRYPOINT so storing values in ENV variables
+ENV JVM_ARGS=$JVM_ARGS
 ENTRYPOINT [ "sh", "-c", \
-    "exec java $ENV_JVM_ARGS -jar registrationservice-sql.jar"]
+    "exec java $JVM_ARGS -jar connector-sql.jar"]

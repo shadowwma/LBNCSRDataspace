@@ -14,7 +14,6 @@
 
 plugins {
     `java-library`
-    `maven-publish`
     id("application")
     alias(libs.plugins.shadow)
 }
@@ -26,7 +25,9 @@ dependencies {
     runtimeOnly(project(":extensions:refresh-catalog"))
     runtimeOnly(project(":extensions:policies"))
 
-    runtimeOnly(libs.bundles.postgres.driver)
+    runtimeOnly(libs.postgresql.driver)
+    runtimeOnly(libs.edc.sql.pool.apache.commons)
+    runtimeOnly(libs.bundles.edc.sqlstores)
     runtimeOnly(libs.edc.transaction.local)
 
     runtimeOnly(libs.bundles.connector)
@@ -63,6 +64,9 @@ dependencies {
 
     runtimeOnly(libs.edc.core.dpf.selector)
     runtimeOnly(libs.edc.ext.dpf.selector.api)
+    runtimeOnly(libs.edc.ext.dpf.sql)
+    runtimeOnly(libs.edc.ext.dpf.instance.sql)
+    runtimeOnly(libs.edc.core.transform.core)
 
     // Embedded DPF
     runtimeOnly(libs.bundles.dpf)
@@ -77,6 +81,7 @@ dependencies {
     runtimeOnly(libs.ih.ext.api.selfdescription)
     runtimeOnly(libs.ih.core.verifier)
     runtimeOnly(libs.ih.ext.credentials.jwt)
+    runtimeOnly(libs.ih.ext.store.sql)
     runtimeOnly(libs.ih.ext.verifier.jwt)
 }
 
@@ -86,7 +91,7 @@ application {
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     mergeServiceFiles()
-    archiveFileName.set("connector.jar")
+    archiveFileName.set("connector-sql.jar")
     dependsOn(distTar, distZip)
     mustRunAfter(distTar, distZip)
 }

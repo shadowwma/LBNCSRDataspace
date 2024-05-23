@@ -1,0 +1,22 @@
+----Register participant with dataspace
+----Company1
+java -jar registration-service-cli.jar -u "http://ncsr-ds-regservice.adapt.gr:8184/api/authority"  -d "did:web:ncsrmvddataspacedid.z16.web.core.windows.net" -c "did:web:ncsrmvdcompany1did.z13.web.core.windows.net" -k "terraform/generated/company1/participant.pem" participants add
+----Company2
+java -jar registration-service-cli.jar -u "http://ncsr-ds-regservice.adapt.gr:8184/api/authority"  -d "did:web:ncsrmvddataspacedid.z16.web.core.windows.net" -c "did:web:ncsrmvdcompany2did.z13.web.core.windows.net" -k "terraform/generated/company2/participant.pem" participants add
+
+----Push Verifiable Credentials
+----Company1
+java -jar identity-hub-cli.jar -s="http://ncsr-ds-connector.adapt.gr:7171/api/identity/identity-hub" vc add -c='{ "region": "eu" }' -b="did:web:ncsrmvdcompany1did.z13.web.core.windows.net" -i="did:web:ncsrmvdgaiaxdid.z16.web.core.windows.net" -k="terraform/generated/dataspace/gaiaxkey.pem"
+----Company2
+java -jar identity-hub-cli.jar -s="http://ncsr-ds-connector2.adapt.gr:7172/api/identity/identity-hub" vc add -c='{ "region": "eu" }' -b="did:web:ncsrmvdcompany2did.z13.web.core.windows.net" -i="did:web:ncsrmvdgaiaxdid.z16.web.core.windows.net" -k="terraform/generated/dataspace/gaiaxkey.pem"
+
+------------------------------------------------------------------
+Company1_did (p1did)
+did:web:ncsrmvdcompany1did.z13.web.core.windows.net
+Company2_did (p1did)
+did:web:ncsrmvdcompany2did.z13.web.core.windows.net
+Dataspace_did (dsdid)
+did:web:ncsrmvddataspacedid.z16.web.core.windows.net
+Gaiax_did
+did:web:ncsrmvdgaiaxdid.z16.web.core.windows.net
+------------------------------------------------------------------

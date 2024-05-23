@@ -22,6 +22,9 @@ var distTar = tasks.getByName("distTar")
 var distZip = tasks.getByName("distZip")
 
 dependencies {
+    runtimeOnly(libs.bundles.postgres.driver)
+    runtimeOnly(libs.edc.transaction.local)
+    
     runtimeOnly(libs.bundles.connector)
     runtimeOnly(libs.bundles.identity)
     runtimeOnly(libs.edc.core.micrometer)
@@ -32,6 +35,7 @@ dependencies {
     runtimeOnly(libs.rs.core)
     runtimeOnly(libs.rs.core.credential.service)
     runtimeOnly(libs.rs.ext.api)
+    runtimeOnly(libs.rs.participant.sql)
 
     runtimeOnly(libs.ih.ext.api)
     runtimeOnly(libs.ih.ext.api.selfdescription)
@@ -54,7 +58,7 @@ application {
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     mergeServiceFiles()
-    archiveFileName.set("registrationservice.jar")
+    archiveFileName.set("registrationservice-sql.jar")
     dependsOn(distTar, distZip)
     mustRunAfter(distTar, distZip)
 }

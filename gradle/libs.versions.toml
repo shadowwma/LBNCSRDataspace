@@ -3,6 +3,7 @@ format.version = "1.1"
 
 [versions]
 edc = "0.3.1"
+edc051 = "0.5.1"
 
 assertj = "3.25.3"
 awaitility = "4.2.0"
@@ -10,6 +11,7 @@ okhttp = "4.12.0"
 restAssured = "5.4.0"
 apacheCommons = "3.14.0"
 gatling = "3.10.4"
+postgresql = "42.7.2"
 
 [libraries]
 edc-spi-policy-engine = { module = "org.eclipse.edc:policy-engine-spi", version.ref = "edc" }
@@ -21,6 +23,7 @@ edc-core-connector = { module = "org.eclipse.edc:connector-core", version.ref = 
 edc-core-controlplane = { module = "org.eclipse.edc:control-plane-core", version.ref = "edc" }
 edc-core-controlplane-api = { module = "org.eclipse.edc:control-plane-api", version.ref = "edc" }
 edc-core-controlplane-api-client = { module = "org.eclipse.edc:control-plane-api-client", version.ref = "edc" }
+edc-core-controlplane-sql = { module = "org.eclipse.edc:control-plane-sql", version.ref = "edc" }
 edc-core-dpf-selector = { module = "org.eclipse.edc:data-plane-selector-core", version.ref = "edc" }
 edc-core-policy-engine = { module = "org.eclipse.edc:policy-engine", version.ref = "edc" }
 edc-core-micrometer = { module = "org.eclipse.edc:micrometer-core", version.ref = "edc" }
@@ -28,6 +31,15 @@ edc-core-junit = { module = "org.eclipse.edc:junit", version.ref = "edc" }
 edc-core-jersey = { module = "org.eclipse.edc:jersey-core", version.ref = "edc" }
 edc-core-transform-core = { module = "org.eclipse.edc:transform-core", version.ref = "edc" }
 edc-protocol-dsp = { module = "org.eclipse.edc:dsp", version.ref = "edc" }
+edc-transaction-local = { module = "org.eclipse.edc:transaction-local", version.ref = "edc" }
+#
+edc-sql-pool-apache-commons = { module = "org.eclipse.edc:sql-pool-apache-commons", version.ref = "edc" }
+edc-sql-assetindex = { module = "org.eclipse.edc:asset-index-sql", version.ref = "edc" }
+edc-sql-contract-definition = { module = "org.eclipse.edc:contract-definition-store-sql", version.ref = "edc" }
+edc-sql-contract-negotiation = { module = "org.eclipse.edc:contract-negotiation-store-sql", version.ref = "edc" }
+edc-sql-transferprocess = { module = "org.eclipse.edc:transfer-process-store-sql", version.ref = "edc" }
+edc-sql-policydef = { module = "org.eclipse.edc:policy-definition-store-sql", version.ref = "edc" }
+edc-sql-ih-credentials = { module = "org.eclipse.edc:identity-hub-credentials-store-sql", version.ref = "edc051"}
 #
 edc-ext-jsonld = { module = "org.eclipse.edc:json-ld", version.ref = "edc" }
 edc-ext-auth-tokenbased = { module = "org.eclipse.edc:auth-tokenbased", version.ref = "edc" }
@@ -48,6 +60,8 @@ edc-ext-dpf-http = { module = "org.eclipse.edc:data-plane-http", version.ref = "
 edc-ext-dpf-core = { module = "org.eclipse.edc:data-plane-core", version.ref = "edc" }
 edc-ext-dpf-selector-client = { module = "org.eclipse.edc:data-plane-selector-client", version.ref = "edc" }
 edc-ext-dpf-selector-api = { module = "org.eclipse.edc:data-plane-selector-api", version.ref = "edc" }
+edc-ext-dpf-sql = { module = "org.eclipse.edc:data-plane-store-sql", version.ref = "edc" }
+edc-ext-dpf-instance-sql = { module = "org.eclipse.edc:data-plane-instance-store-sql", version.ref = "edc" }
 edc-ext-transfer-dpf = { module = "org.eclipse.edc:transfer-data-plane", version.ref = "edc" }
 #
 ih-spi-core = { module = "org.eclipse.edc:identity-hub-spi", version.ref = "edc" }
@@ -57,7 +71,9 @@ ih-core-verifier = { module = "org.eclipse.edc:identity-hub-credentials-verifier
 ih-ext-api = { module = "org.eclipse.edc:identity-hub-api", version.ref = "edc" }
 ih-ext-verifier-jwt = { module = "org.eclipse.edc:identity-hub-verifier-jwt", version.ref = "edc" }
 ih-ext-credentials-jwt = { module = "org.eclipse.edc:identity-hub-credentials-jwt", version.ref = "edc" }
+ih-ext-credentials-sql = { module = "org.eclipse.edc:identity-hub-credentials-store-sql", version.ref = "edc051" }
 ih-ext-api-selfdescription = { module = "org.eclipse.edc:self-description-api", version.ref = "edc" }
+ih-ext-store-sql = { module = "org.eclipse.edc:identity-hub-store-sql", version.ref = "edc" }
 #
 fc-spi-core = { module = "org.eclipse.edc:federated-catalog-spi", version.ref = "edc" }
 fc-core = { module = "org.eclipse.edc:federated-catalog-core", version.ref = "edc" }
@@ -85,11 +101,15 @@ azure-identity = { group = "com.azure", name = "azure-identity", version = "1.11
 azure-keyvault = { group = "com.azure", name = "azure-security-keyvault-secrets", version = "4.7.3" }
 azure-storageblob = { group = "com.azure", name = "azure-storage-blob", version = "12.25.1" }
 
+postgresql-driver = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+
 [bundles]
 connector = ["edc-core-boot", "edc-core-connector", "edc-core-jersey", "edc-ext-api-observability"]
 identity = ["edc-ext-identity-did-core", "edc-ext-identity-did-service", "edc-ext-identity-did-web"]
 transfer-dpf = ["edc-ext-transfer-dpf", "edc-ext-dpf-client", "edc-ext-dpf-selector-client"]
 dpf = ["edc-ext-dpf-api", "edc-ext-dpf-http", "edc-ext-dpf-core", "edc-azure-ext-dpf-storage"]
+edc-sqlstores = ["edc-sql-assetindex", "edc-sql-contract-definition", "edc-sql-contract-negotiation", "edc-sql-transferprocess", "edc-sql-policydef"]
+postgres-driver = ["postgresql-driver", "edc-sql-pool-apache-commons"]
 
 [plugins]
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }

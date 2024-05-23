@@ -176,6 +176,7 @@ services:
       EDC_KEYSTORE: /resources/vault/registration-service/registration-service-keystore.jks
       EDC_KEYSTORE_PASSWORD: test123
       EDC_ERROR_RESPONSE_VERBOSE: "true"
+      EDC_HTTPS_ENFORCEMENT: "true"
     ports:
       - "8184:8184"
       - "8185:8181"
